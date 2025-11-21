@@ -1,0 +1,14 @@
+import React from 'react';
+
+export default function RouteInfo({ route }) {
+  return (
+    <div className="bg-white shadow p-4 mb-4 rounded">
+      <h2 className="text-xl font-semibold mb-2">Route Details</h2>
+      <p>🧭 Path: {route.path.join(' → ')}</p>
+      <p>🚗 Modes: {route.transport_modes_used.join(', ')}</p>
+      <p>⏰ Total Time: {route.total_time} mins</p>
+      <p>💰 Total Cost: ₹{route.total_cost}</p>
+      <p>📍 Arrival Time: {route.arrival_time}</p>
+    </div>
+  );
+}

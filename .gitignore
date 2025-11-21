@@ -1,0 +1,67 @@
+#################################
+# Node / React (frontend)
+#################################
+
+# dependencies
+frontend/node_modules/
+
+# production build
+frontend/build/
+frontend/dist/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Vite config cache
+frontend/.vite/
+
+#################################
+# Python (backend)
+#################################
+
+# Byte-compiled / optimized / DLL files
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+
+# virtual environments
+backend/venv/
+backend/.venv/
+
+# environment variables
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# tests / coverage
+backend/.pytest_cache/
+backend/.coverage
+backend/coverage.xml
+
+# Django / Flask / FastAPI specific
+backend/db.sqlite3
+backend/instance/
+backend/*.db
+
+# logs
+backend/*.log
+
+#################################
+# OS / IDE files
+#################################
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# VS Code
+.vscode/
