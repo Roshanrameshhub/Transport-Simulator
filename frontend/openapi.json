@@ -1,0 +1,129 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SimuChennai Transport API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/route/plan": {
+      "get": {
+        "operationId": "plan_route_route_plan_get",
+        "parameters": [
+          { "name": "start", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "end", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "prefer_cost", "in": "query", "required": false, "schema": { "type": "boolean", "default": true } },
+          { "name": "prefer_time", "in": "query", "required": false, "schema": { "type": "boolean", "default": false } },
+          { "name": "selected_mode", "in": "query", "required": false, "schema": { "type": "string", "default": "any" } },
+          { "name": "time_weight", "in": "query", "required": false, "schema": { "type": "number", "default": 1.0 } },
+          { "name": "cost_weight", "in": "query", "required": false, "schema": { "type": "number", "default": 1.0 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RouteResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booking/create": {
+      "post": {
+        "operationId": "create_booking_booking_create_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BookingRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BookingResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booking/{booking_id}": {
+      "get": {
+        "operationId": "get_booking_booking__booking_id__get",
+        "parameters": [
+          { "name": "booking_id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BookingResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SegmentDetail": {
+        "type": "object",
+        "required": ["from", "to", "distance_km", "mode", "mode_name", "time_mins", "cost"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "distance_km": { "type": "number" },
+          "mode": { "type": "string" },
+          "mode_name": { "type": "string" },
+          "time_mins": { "type": "number" },
+          "cost": { "type": "number" }
+        }
+      },
+      "RouteResponse": {
+        "type": "object",
+        "required": ["path", "total_cost", "total_time", "transport_modes_used", "arrival_time", "detailed_segments"],
+        "properties": {
+          "path": { "type": "array", "items": { "type": "string" } },
+          "total_cost": { "type": "number" },
+          "total_time": { "type": "number" },
+          "transport_modes_used": { "type": "array", "items": { "type": "string" } },
+          "arrival_time": { "type": "string" },
+          "detailed_segments": { "type": "array", "items": { "$ref": "#/components/schemas/SegmentDetail" } }
+        }
+      },
+      "BookingRequest": {
+        "type": "object",
+        "required": ["user", "start", "end"],
+        "properties": {
+          "user": { "type": "string" },
+          "start": { "type": "string" },
+          "end": { "type": "string" },
+          "selected_mode": { "type": "string", "nullable": true },
+          "prefer_cost": { "type": "boolean", "default": false },
+          "prefer_time": { "type": "boolean", "default": true },
+          "time_weight": { "type": "number", "default": 0.5 },
+          "cost_weight": { "type": "number", "default": 0.5 }
+        }
+      },
+      "BookingResponse": {
+        "type": "object",
+        "required": ["booking_id", "status", "path", "transport_modes_used", "total_cost", "total_time"],
+        "properties": {
+          "booking_id": { "type": "string" },
+          "status": { "type": "string" },
+          "path": { "type": "array", "items": { "type": "string" } },
+          "transport_modes_used": { "type": "array", "items": { "type": "string" } },
+          "total_cost": { "type": "number" },
+          "total_time": { "type": "number" }
+        }
+      }
+    }
+  }
+}

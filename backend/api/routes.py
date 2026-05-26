@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+import datetime
+from fastapi import APIRouter, HTTPException, Query
 from .schemas import RouteRequest, RouteResponse, BookingRequest, BookingResponse
 from planner import RoutePlanner
 from booking import BookingSystem
@@ -18,15 +19,19 @@ planner.generate_availability()
 # ✅ Route: /route/plan changed to GET with query parameters
 @router.get("/route/plan", response_model=RouteResponse)
 def plan_route(
-    start: str,
-    end: str,
-    prefer_cost: bool = True,
-    prefer_time: bool = False,
-    selected_mode: str = "any",
-    time_weight: float = 1.0,
-    cost_weight: float = 1.0
+    start: str = Query(...),
+    end: str = Query(...),
+    prefer_cost: bool = Query(True),
+    prefer_time: bool = Query(False),
+    selected_mode: str = Query("any"),
+    time_weight: float = Query(1.0),
+    cost_weight: float = Query(1.0)
 ):
     try:
+        # If selected_mode is an empty string, treat it as "any"
+        if selected_mode == "":
+            selected_mode = "any"
+
         print("🔍 Route request received:", start, end)
         print("📌 Available landmarks:", list(planner.city_map.graph.keys()))
 
@@ -45,11 +50,19 @@ def plan_route(
 
         print("✅ Route found:", result)
 
+        # Calculate estimated arrival time dynamically
+        # Assuming current time as departure time
+        departure_time = datetime.datetime.now()
+        # Add total_time (in minutes) to departure_time
+        arrival_time = departure_time + datetime.timedelta(minutes=result['total_time'])
+
         return RouteResponse(
             path=result['path'],
             total_cost=result['total_cost'],
             total_time=result['total_time'],
-            transport_modes_used=result['transport_modes_used']
+            transport_modes_used=result['transport_modes_used'],
+            arrival_time=arrival_time.isoformat(), # Convert to ISO format string
+            detailed_segments=result['detailed_segments']
         )
 
     except ValueError as ve:
@@ -74,7 +87,9 @@ def create_booking(request: BookingRequest):
             end=request.end,
             prefer_cost=request.prefer_cost,
             prefer_time=request.prefer_time,
-            selected_mode=request.selected_mode
+            selected_mode=request.selected_mode,
+            time_weight=request.time_weight,
+            cost_weight=request.cost_weight
         )
 
         if not route_info:

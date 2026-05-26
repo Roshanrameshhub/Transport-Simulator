@@ -1,0 +1,168 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-background: hsl(210 40% 98%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+  --color-primary: hsl(199 89% 42%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(210 40% 96%);
+  --color-secondary-foreground: hsl(222 47% 11%);
+  --color-muted: hsl(210 40% 96%);
+  --color-muted-foreground: hsl(215 16% 47%);
+  --color-accent: hsl(199 89% 94%);
+  --color-accent-foreground: hsl(199 89% 28%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(214 32% 91%);
+  --color-input: hsl(214 32% 91%);
+  --color-ring: hsl(199 89% 42%);
+  --radius-lg: 0.75rem;
+  --radius-md: 0.5rem;
+  --radius-sm: 0.25rem;
+}
+
+.dark {
+  --color-background: hsl(222 47% 7%);
+  --color-foreground: hsl(210 40% 98%);
+  --color-card: hsl(222 47% 10%);
+  --color-card-foreground: hsl(210 40% 98%);
+  --color-popover: hsl(222 47% 10%);
+  --color-popover-foreground: hsl(210 40% 98%);
+  --color-primary: hsl(199 89% 48%);
+  --color-primary-foreground: hsl(222 47% 7%);
+  --color-secondary: hsl(217 33% 17%);
+  --color-secondary-foreground: hsl(210 40% 98%);
+  --color-muted: hsl(217 33% 17%);
+  --color-muted-foreground: hsl(215 20% 65%);
+  --color-accent: hsl(199 50% 18%);
+  --color-accent-foreground: hsl(199 89% 75%);
+  --color-destructive: hsl(0 63% 45%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(217 33% 20%);
+  --color-input: hsl(217 33% 20%);
+  --color-ring: hsl(199 89% 48%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@utility bg-background {
+  background-color: var(--color-background);
+}
+@utility text-foreground {
+  color: var(--color-foreground);
+}
+@utility bg-card {
+  background-color: var(--color-card);
+}
+@utility text-card-foreground {
+  color: var(--color-card-foreground);
+}
+@utility bg-popover {
+  background-color: var(--color-popover);
+}
+@utility text-popover-foreground {
+  color: var(--color-popover-foreground);
+}
+@utility bg-primary {
+  background-color: var(--color-primary);
+}
+@utility text-primary-foreground {
+  color: var(--color-primary-foreground);
+}
+@utility text-primary {
+  color: var(--color-primary);
+}
+@utility bg-secondary {
+  background-color: var(--color-secondary);
+}
+@utility text-secondary-foreground {
+  color: var(--color-secondary-foreground);
+}
+@utility bg-muted {
+  background-color: var(--color-muted);
+}
+@utility text-muted-foreground {
+  color: var(--color-muted-foreground);
+}
+@utility bg-accent {
+  background-color: var(--color-accent);
+}
+@utility text-accent-foreground {
+  color: var(--color-accent-foreground);
+}
+@utility bg-destructive {
+  background-color: var(--color-destructive);
+}
+@utility text-destructive {
+  color: var(--color-destructive);
+}
+@utility text-destructive-foreground {
+  color: var(--color-destructive-foreground);
+}
+@utility border-border {
+  border-color: var(--color-border);
+}
+@utility border-input {
+  border-color: var(--color-input);
+}
+@utility ring-ring {
+  --tw-ring-color: var(--color-ring);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus,
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-\[shimmer_3s_infinite\] {
+  animation: shimmer 3s infinite;
+}
